@@ -72,7 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (time.month !== lastMonth) {
             wallet.add(200);
             lastMonth = time.month;
-            console.log("Monthly salary received: $200");
         }
 
         // Auto-buy logic (Hourly check)
@@ -98,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (wallet.subtract(totalCost)) {
             battery.charge(tradeAmount, market.currentPrice);
         } else {
-            console.warn("Insufficient funds!");
+            // Insufficient funds
         }
     });
 
@@ -114,9 +113,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const upgradeCost = upgradeAmount * 336.87; // Cost for 50kWh
         if (wallet.subtract(upgradeCost)) {
             battery.upgradeCapacity(upgradeAmount);
-            console.log('Battery upgraded to:', battery.capacity, 'kWh');
         } else {
-            console.warn("Insufficient funds for upgrade!");
+            // Insufficient funds
         }
     });
 

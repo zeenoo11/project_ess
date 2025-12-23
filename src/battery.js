@@ -29,7 +29,7 @@ export class BatteryManager {
         const effectiveCapacity = this.capacity * (this.soh / 100);
 
         if (this.chargeAmount + amount > effectiveCapacity) {
-            // console.warn("Battery full or degraded capacity reached!");
+            // Battery full or degraded capacity reached
             return false;
         }
 

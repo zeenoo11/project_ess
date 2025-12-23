@@ -26,7 +26,7 @@ export class MarketSimulator {
                 const key = `${parseInt(month)}_${parseInt(day)}_${parseInt(hour)}`;
                 this.smpData[key] = priceUniteUSD;
             });
-            console.log("SMP Data Loaded. Total entries:", Object.keys(this.smpData).length);
+            // SMP Data Loaded
         } catch (error) {
             console.error("Failed to load SMP data:", error);
         }
@@ -51,7 +51,6 @@ export class MarketSimulator {
 
         if (this.smpData[key]) {
             this.currentPrice = this.smpData[key];
-            // console.log(`Price updated for ${key}: ${this.currentPrice}`);
         } else {
             console.warn(`No SMP data for ${key}. Current keys example: ${Object.keys(this.smpData)[0]}`);
         }
