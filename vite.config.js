@@ -16,6 +16,8 @@ export default defineConfig({
     },
     server: {
         port: 3000,
+        host: '0.0.0.0', // Allow external access on the network
+        allowedHosts: ['noodesk.iptime.org'], // Explicitly allow this host
         open: true,
     },
 });
