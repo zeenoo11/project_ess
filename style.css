@@ -135,13 +135,13 @@ body {
     flex: 1;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    padding: 20px 30px;
+    gap: 20px;
+    padding: 100px 40px 40px 40px;
+    /* Offset from top banner */
     background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
     align-content: center;
-    /* Center grid rows vertically */
-    justify-items: center;
-    /* Center items in cells if needed */
+    /* Center vertically */
+    height: 100%;
 }
 
 .ess-card {

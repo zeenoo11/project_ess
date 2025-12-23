@@ -52,8 +52,8 @@ export class HouseManager {
         this.monthlyEnergy += hourlyUsage;
         this.monthlyCost += actualCost;
 
-        // Keep history for graph
-        this.usageHistory.push(hourlyUsage);
+        // Keep history for graph (storing hour for X-axis)
+        this.usageHistory.push({ usage: hourlyUsage, hour: hour });
         if (this.usageHistory.length > 50) this.usageHistory.shift();
 
         this.updateUI(hourlyUsage);
@@ -79,20 +79,46 @@ export class HouseManager {
         const ctx = canvas.getContext('2d');
         const width = canvas.width;
         const height = canvas.height;
+        const paddingBottom = 20;
+        const chartHeight = height - paddingBottom;
 
         ctx.clearRect(0, 0, width, height);
+
+        // Draw Grid and Labels
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.setLineDash([2, 4]);
+        ctx.lineWidth = 1;
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '10px Outfit';
+        ctx.textAlign = 'center';
+
+        const step = width / 50;
+        const maxUsage = 1.0;
+
+        this.usageHistory.forEach((data, i) => {
+            const x = i * step;
+
+            // Vertical line every 6 hours or when hour is multiple of 6
+            if (data.hour % 6 === 0 && (i === 0 || this.usageHistory[i - 1].hour !== data.hour)) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, chartHeight);
+                ctx.stroke();
+
+                ctx.fillText(`${data.hour}h`, x, height - 5);
+            }
+        });
+
+        ctx.setLineDash([]); // Reset dash
 
         // Draw usage line
         ctx.beginPath();
         ctx.strokeStyle = '#f59e0b'; // Amber-500
         ctx.lineWidth = 2;
 
-        const maxUsage = 1.0; // Normal max for scaling
-        const step = width / 50;
-
-        this.usageHistory.forEach((usage, i) => {
+        this.usageHistory.forEach((data, i) => {
             const x = i * step;
-            const y = height - (usage / maxUsage) * (height * 0.8) - 10;
+            const y = chartHeight - (data.usage / maxUsage) * (chartHeight * 0.8) - 10;
             if (i === 0) ctx.moveTo(x, y);
             else ctx.lineTo(x, y);
         });
