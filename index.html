@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESS Simulation - Premium</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <div id="game-container">
+        <div class="time-banner">
+            <span>ESS SMART GRID SYSTEM</span>
+            <div class="banner-stats">
+                <div class="banner-badge">
+                    <span id="balance-display">$100,000.00</span>
+                </div>
+                <div class="banner-badge">
+                    <span id="time-display">2025-01-01 00:00</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="ess-main-view">
+            <!-- Column 1: House (Consumer) -->
+            <div class="ess-card" id="house-card">
+                <div class="icon-wrapper">
+                    <img src="./public/assets/icon_house.svg" alt="House">
+                </div>
+                <h2>Household</h2>
+                <div class="house-stats">
+                    <canvas id="house-usage-canvas"></canvas>
+                    <div class="stat-row">
+                        <span>Hourly Usage</span>
+                        <span class="stat-value"><span id="house-usage">0.40</span> kWh/h</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>Avg. Cost (Month)</span>
+                        <span class="stat-value">$<span id="house-avg-cost">0.10</span> /kWh</span>
+                    </div>
+                    <div class="investment-tag">Target: 300 kWh/month</div>
+                </div>
+                <div class="action-area">
+                </div>
+            </div>
+
+            <!-- Column 2: Battery (Storage) -->
+            <div class="ess-card" id="battery-card">
+                <div class="icon-wrapper">
+                    <img src="./public/assets/icon_battery.svg" alt="Battery">
+                </div>
+                <h2>Energy Storage</h2>
+                <div class="battery-stats">
+                    <div class="charge-bar-container">
+                        <div id="charge-bar"></div>
+                    </div>
+                    <div class="stat-row">
+                        <span>Charge</span>
+                        <span class="stat-value"><span id="battery-kwh">0</span> / <span id="max-capacity">300</span>
+                            kWh</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>Avg. Price</span>
+                        <span class="stat-value">$<span id="avg-price">0.00</span> /kWh</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>Health (SoH)</span>
+                        <span class="stat-value"><span id="soh-value">100</span>%</span>
+                    </div>
+                    <div class="soh-bar-container">
+                        <div id="soh-bar"></div>
+                    </div>
+                    <div class="investment-tag">Total Investment: $<span id="investment-cost">101.06</span>k USD</div>
+                </div>
+                <div class="action-area">
+                    <button class="btn-small upgrade-btn" id="upgrade-capacity">Upgrade (+5kWh, -$1.68k)</button>
+                </div>
+            </div>
+
+            <!-- Column 3: Market (Price & Trading) -->
+            <div class="ess-card" id="market-card">
+                <div class="icon-wrapper">
+                    <img src="./public/assets/icon_market.svg" alt="Market">
+                </div>
+                <h2>Energy Market</h2>
+                <div class="market-stats">
+                    <canvas id="price-canvas"></canvas>
+                    <div class="price-box">
+                        $<span id="current-price">0.12</span> /kWh
+                    </div>
+                </div>
+
+                <div class="action-area">
+                    <div class="auto-buy-controls">
+                        <label>Auto-buy Below: $<span id="auto-buy-val">0.08</span></label>
+                        <div class="auto-buy-input-group">
+                            <input type="range" id="auto-buy-price" min="0.05" max="0.15" step="0.005" value="0.08">
+                            <button class="btn-small toggle-btn" id="auto-buy-toggle">OFF</button>
+                        </div>
+                    </div>
+
+                    <div class="trade-volume-control">
+                        <label>Amount (kWh)</label>
+                        <div class="amount-selector">
+                            <button class="amt-btn" data-amt="1">1</button>
+                            <button class="amt-btn active" data-amt="5">5</button>
+                            <button class="amt-btn" data-amt="10">10</button>
+                            <button class="amt-btn" data-amt="50">50</button>
+                        </div>
+                    </div>
+
+                    <div class="trading-buttons">
+                        <button class="trade-btn buy" id="buy-btn">BUY (5kWh)</button>
+                        <button class="trade-btn sell" id="sell-btn">SELL (5kWh)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Phaser Canvas (hidden or background, currently transparent in main.js) -->
+    <script type="module" src="./src/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,376 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&display=swap');
+
+:root {
+    /* Light Mode (Now Default) */
+    --bg-color: #f8fafc;
+    --acc-color: #0284c7;
+    --text-color: #1e293b;
+    --acc-color: #0284c7;
+    --buy-color: #ef4444;
+    --sell-color: #10b981;
+    --card-border: #e2e8f0;
+    --shadow-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Temporary Dark Mode support removed or disabled to focus on Light Mode */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+#game-container {
+    width: 1000px;
+    height: 750px;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px var(--shadow-color);
+    border: 1px solid var(--card-border);
+    background: white;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.time-banner {
+    background: rgba(15, 23, 42, 0.4);
+    /* Transparent dark gray */
+    backdrop-filter: blur(10px);
+    /* Glassmorphism effect */
+    color: #e2e8f0;
+    padding: 12px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+.banner-stats {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.banner-badge {
+    background: white;
+    padding: 6px 16px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#time-display {
+    font-size: 1.0rem;
+    font-weight: 700;
+    color: #0f172a;
+    /* Slate 900 for Contrast */
+    font-variant-numeric: tabular-nums;
+    /* Prevents shifting digits */
+    min-width: 170px;
+    /* Fixed width for date string */
+    text-align: right;
+}
+
+#balance-display {
+    color: #059669;
+    /* Slightly darker Emerald */
+    font-weight: 800;
+    font-size: 1.0rem;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Trade Amount Selector */
+.amount-selector {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 15px;
+    padding: 4px;
+    background: #f1f5f9;
+    border-radius: 10px;
+}
+
+.amt-btn {
+    flex: 1;
+    border: none;
+    padding: 6px 0;
+    border-radius: 6px;
+    background: transparent;
+    color: #64748b;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.amt-btn.active {
+    background: white;
+    color: var(--acc-color);
+    box-shadow: 0 1px 3px var(--shadow-color);
+}
+
+/* 3-Column Layout Section */
+.ess-main-view {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    padding: 20px 30px;
+    background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+    align-content: center;
+    /* Center grid rows vertically */
+    justify-items: center;
+    /* Center items in cells if needed */
+}
+
+.ess-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    transition: transform 0.2s ease;
+    height: 100%;
+}
+
+.ess-card h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 15px;
+}
+
+/* SoH Bar Specific */
+.soh-bar-container {
+    width: 100%;
+    height: 6px;
+    background: #f1f5f9;
+    border-radius: 3px;
+    margin-top: 5px;
+}
+
+#soh-bar {
+    width: 100%;
+    height: 100%;
+    background: #10b981;
+    /* Green for health */
+    border-radius: 3px;
+    transition: width 0.5s ease;
+}
+
+.investment-tag {
+    font-size: 0.7rem;
+    color: #94a3b8;
+    margin-top: 5px;
+}
+
+/* Stats Styling */
+.battery-stats,
+.house-stats,
+.market-stats {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: auto;
+    /* Push buttons to bottom */
+}
+
+.charge-bar-container {
+    width: 100%;
+    height: 12px;
+    background: #e2e8f0;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid #cbd5e1;
+}
+
+#charge-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #38bdf8, #0284c7);
+    transition: width 0.3s ease;
+}
+
+.stat-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.stat-value {
+    color: var(--text-color);
+}
+
+/* Action Buttons & Controls */
+.action-area {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.btn-small {
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: #e2e8f0;
+    color: #475569;
+}
+
+.btn-small:hover {
+    background: var(--acc-color);
+    color: white;
+}
+
+.upgrade-btn {
+    background: #f1f5f9;
+    border: 1px dashed #cbd5e1;
+    color: #64748b;
+}
+
+.auto-buy-controls {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.auto-buy-controls label {
+    display: block;
+    font-size: 0.7rem;
+    margin-bottom: 5px;
+    color: #64748b;
+}
+
+.auto-buy-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 5px;
+}
+
+.auto-buy-input-group input[type="range"] {
+    width: 100%;
+    cursor: pointer;
+    accent-color: var(--acc-color);
+}
+
+#auto-buy-val {
+    font-weight: 700;
+    color: var(--acc-color);
+    font-size: 0.85rem;
+}
+
+.toggle-btn {
+    width: 50px;
+    font-size: 0.7rem;
+}
+
+/* Market Panel (Combined into right column or keep separate? 
+   User asked for 3-part division, so Market Graph will be in the Market Card column) */
+.market-stats canvas,
+.house-stats canvas {
+    width: 100%;
+    height: 120px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    margin-bottom: 10px;
+}
+
+.price-box {
+    text-align: center;
+    padding: 15px;
+    background: #f0f9ff;
+    border-radius: 16px;
+    border: 1px solid #bae6fd;
+}
+
+.price-box span {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--acc-color);
+}
+
+.trading-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.trade-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    font-family: inherit;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.trade-btn.buy {
+    background: var(--buy-color);
+}
+
+.trade-btn.sell {
+    background: var(--sell-color);
+}
+
+.trade-btn:hover {
+    transform: scale(1.02);
+}
+
+/* Remove old market-panel style */
+.market-panel {
+    display: none;
+}
+
+/* Remove old graph-container and price-display styles */
+.graph-container {
+    display: none;
+}
+
+.price-display {
+    display: none;
+}
+
+/* Remove old theme toggle related styles if not needed or keep for reference */
+.theme-toggle {
+    display: none;
+    /* User wants Light mode only for now */
+}
