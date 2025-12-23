@@ -21,17 +21,24 @@ export class HouseManager {
             this.monthlyCost = 0;
         }
 
-        // Variable consumption: Peak (17:00 ~ 22:00) uses ~2.5x more
-        let multiplier = 1.0;
-        if (hour >= 17 && hour <= 22) {
-            multiplier = 2.5;
-        } else if (hour >= 0 && hour <= 6) {
-            multiplier = 0.5; // low usage at night
-        }
+        // Gradient consumption profile (0h to 23h)
+        // Smooth transition: Low night -> Morning Ramp -> Day plateau -> Evening Peak -> Night Drop
+        const hourlyProfile = [
+            0.4, 0.4, 0.35, 0.35, 0.4, 0.5,  // 00-05: Deep night (Low)
+            0.7, 1.0, 1.1, 1.0, 0.9, 0.9,    // 06-11: Morning ramp
+            1.0, 1.1, 1.0, 1.1, 1.3, 1.6,    // 12-17: Afternoon & Pre-peak
+            2.3, 2.5, 2.4, 1.8, 1.2, 0.7     // 18-23: Peak & Drop
+        ];
+
+        // Add small randomness to make it feel organic (+/- 10%)
+        const baseMultiplier = hourlyProfile[hour] || 0.5;
+        const noise = 0.9 + Math.random() * 0.2;
+        const multiplier = baseMultiplier * noise;
 
         const hourlyUsage = this.baseRate * multiplier;
         let energyNeeded = hourlyUsage;
         let actualCost = 0;
+        let marketEnergyUsed = 0;
 
         // Priority 1: Use Battery
         if (battery.chargeAmount > 0) {
@@ -45,7 +52,8 @@ export class HouseManager {
 
         // Priority 2: Direct Market Usage
         if (energyNeeded > 0) {
-            actualCost += energyNeeded * marketPrice;
+            marketEnergyUsed = energyNeeded;
+            actualCost += marketEnergyUsed * marketPrice;
         }
 
         // Track stats
@@ -57,6 +65,8 @@ export class HouseManager {
         if (this.usageHistory.length > 50) this.usageHistory.shift();
 
         this.updateUI(hourlyUsage);
+
+        return marketEnergyUsed;
     }
 
     getMonthlyAverageCost() {

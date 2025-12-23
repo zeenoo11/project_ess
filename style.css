@@ -46,23 +46,25 @@ body {
 }
 
 .time-banner {
-    background: rgba(15, 23, 42, 0.4);
-    /* Transparent dark gray */
-    backdrop-filter: blur(10px);
-    /* Glassmorphism effect */
-    color: #e2e8f0;
-    padding: 12px 30px;
+    background: rgba(255, 255, 255, 0.7);
+    /* Light glassmorphism */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: #1e293b;
+    /* Slate 800 */
+    padding: 10px 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-weight: 700;
+    letter-spacing: -0.2px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     z-index: 100;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .banner-stats {
@@ -72,30 +74,29 @@ body {
 }
 
 .banner-badge {
-    background: white;
-    padding: 6px 16px;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    background: #f1f5f9;
+    /* Light slate bg */
+    padding: 6px 14px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 1px solid rgba(0, 0, 0, 0.03);
 }
 
 #time-display {
-    font-size: 1.0rem;
+    font-size: 0.95rem;
     font-weight: 700;
-    color: #0f172a;
-    /* Slate 900 for Contrast */
+    color: #334155;
+    /* Slate 700 */
     font-variant-numeric: tabular-nums;
-    /* Prevents shifting digits */
     min-width: 170px;
-    /* Fixed width for date string */
     text-align: right;
 }
 
 #balance-display {
     color: #059669;
-    /* Slightly darker Emerald */
+    /* Emerald 600 */
     font-weight: 800;
     font-size: 1.0rem;
     font-variant-numeric: tabular-nums;
@@ -130,25 +131,65 @@ body {
     box-shadow: 0 1px 3px var(--shadow-color);
 }
 
+/* Goal Progress Bar */
+#goal-container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 70px auto 0;
+    /* Reduced margin-top */
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+}
+
+.goal-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #475569;
+    font-weight: 700;
+}
+
+.progress-track {
+    width: 100%;
+    height: 14px;
+    background: #e2e8f0;
+    border-radius: 7px;
+    overflow: hidden;
+}
+
+#goal-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #f59e0b, #d97706);
+    /* Amber/Yellow gradient */
+    transition: width 0.5s ease-out;
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+}
+
 /* 3-Column Layout Section */
 .ess-main-view {
     flex: 1;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    padding: 100px 40px 40px 40px;
-    /* Offset from top banner */
+    gap: 12px;
+    /* Reduced gap */
+    padding: 15px 30px 15px 30px;
+    /* Reduced padding */
     background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
-    align-content: center;
-    /* Center vertically */
-    height: 100%;
+    align-items: stretch;
 }
 
 .ess-card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
     border-radius: 20px;
-    padding: 20px;
+    padding: 16px;
+    /* Reduced from 20px */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -373,4 +414,85 @@ body {
 .theme-toggle {
     display: none;
     /* User wants Light mode only for now */
+}
+
+/* Responsive Mobile Styles */
+@media (max-width: 768px) {
+    body {
+        overflow-y: auto;
+        height: auto;
+        align-items: flex-start;
+    }
+
+    #game-container {
+        width: 100%;
+        height: auto;
+        min-height: 100vh;
+        border-radius: 0;
+        border: none;
+        box-shadow: none;
+    }
+
+    .time-banner {
+        padding: 10px 15px;
+        flex-direction: column;
+        gap: 8px;
+        position: fixed;
+        /* Keep it at top while scrolling */
+    }
+
+    .time-banner span:first-child {
+        font-size: 0.8rem;
+    }
+
+    .banner-stats {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .banner-badge {
+        padding: 4px 10px;
+        flex: 1;
+        justify-content: center;
+    }
+
+    #time-display,
+    #balance-display {
+        font-size: 0.85rem;
+        min-width: auto;
+    }
+
+    .ess-main-view {
+        grid-template-columns: 1fr;
+        padding: 20px 15px 30px 15px;
+        /* Reduced padding-top as Goal Bar already clears the banner */
+        gap: 15px;
+    }
+
+    .ess-card {
+        padding: 15px;
+        height: auto;
+    }
+
+    /* Card Ordering */
+    #market-card {
+        order: 1;
+    }
+
+    #battery-card {
+        order: 2;
+    }
+
+    #house-card {
+        order: 3;
+    }
+
+    .price-box span {
+        font-size: 1.5rem;
+    }
+
+    .market-stats canvas,
+    .house-stats canvas {
+        height: 100px;
+    }
 }

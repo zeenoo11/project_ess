@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const market = new MarketSimulator();
     const battery = new BatteryManager();
     const house = new HouseManager();
-    const wallet = new WalletManager(100000); // Start with $100,000
+    const wallet = new WalletManager(5000); // Start with $5,000
 
     let autoBuyEnabled = false;
     let tradeAmount = 5; // Default trade volume
@@ -62,8 +62,11 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(() => {
         time.tick();
         battery.tick();
-        market.update();
-        house.consume(battery, market.currentPrice, time);
+        market.update(time); // Pass time for SMP lookup
+        const marketEnergyUsed = house.consume(battery, market.currentPrice, time);
+        if (marketEnergyUsed > 0) {
+            wallet.subtract(marketEnergyUsed * market.currentPrice);
+        }
 
         // Salary Logic: Monthly $200
         if (time.month !== lastMonth) {
@@ -107,9 +110,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Advanced Feature Listeners
     document.getElementById('upgrade-capacity').addEventListener('click', () => {
-        const upgradeCost = 5 * 336.87; // Cost for 5kWh
+        const upgradeAmount = 50;
+        const upgradeCost = upgradeAmount * 336.87; // Cost for 50kWh
         if (wallet.subtract(upgradeCost)) {
-            battery.upgradeCapacity(5);
+            battery.upgradeCapacity(upgradeAmount);
             console.log('Battery upgraded to:', battery.capacity, 'kWh');
         } else {
             console.warn("Insufficient funds for upgrade!");

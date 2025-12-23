@@ -1,8 +1,8 @@
 export class BatteryManager {
     constructor() {
-        this.capacity = 300; // Starting capacity 300kWh
-        this.chargeAmount = 0; // Current kWh
-        this.totalCost = 0; // Cumulative cost of current charge
+        this.capacity = 150; // Starting capacity 150kWh
+        this.chargeAmount = 50; // Current kWh: Starting with 50kWh
+        this.totalCost = 50 * 0.10; // Assume initial charge cost is $0.10/kWh
         this.soh = 100; // State of Health (%)
         this.lifespanHours = 12 * 365 * 24; // 12 years in hours
         this.hoursPassed = 0;
